@@ -1,5 +1,5 @@
 (function () {
-  const BASE_URL = "https://your-backend-api.com/track";
+  const BASE_URL = "http://localhost:8080/track";
 
   function sendData(data) {
     fetch(BASE_URL, {
@@ -50,12 +50,4 @@
       timestamp: new Date().toISOString(),
     });
   }
-
-  document.querySelectorAll(".add-to-cart-button").forEach(function (button) {
-    button.addEventListener("click", function () {
-      trackEvent("add_to_cart", {
-        productId: button.dataset.productId,
-      });
-    });
-  });
 })();
