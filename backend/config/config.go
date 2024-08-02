@@ -12,6 +12,7 @@ type Config struct {
 	KafkaTopicClick    string
 	KafkaTopicDuration string
 	ServerPort         string
+	KafkaGroupId       string
 }
 
 var AppConf Config
@@ -25,9 +26,10 @@ func InitConfig() {
 	}
 
 	AppConf.KafkaBrokerURL = viper.GetString("KAFKA_BROKER_URL")
-	AppConf.KafkaTopicPageView = viper.GetString("KAFKA_TOPIC_PAGE_VIEW")
+	AppConf.KafkaTopicPageView = viper.GetString("KAFKA_TOPIC_PAGEVIEW")
 	AppConf.KafkaTopicClick = viper.GetString("KAFKA_TOPIC_CLICK")
 	AppConf.KafkaTopicDuration = viper.GetString("KAFKA_TOPIC_DURATION")
 	AppConf.ServerPort = viper.GetString("SERVER_PORT")
+	AppConf.KafkaGroupId = viper.GetString("KAFKA_GROUP_ID")
 
 }

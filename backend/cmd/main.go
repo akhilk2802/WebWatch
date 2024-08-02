@@ -12,6 +12,8 @@ func main() {
 	config.InitConfig()
 	kafka.InitKafka()
 
+	kafka.StartAllConsumers()
+
 	r := router.InitRouter()
 
 	log.Println("Starting server on port :", config.AppConf.ServerPort)
