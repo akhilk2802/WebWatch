@@ -6,6 +6,7 @@ import (
 	"backend/router"
 	"log"
 	"net/http"
+	"time"
 )
 
 func main() {
@@ -13,6 +14,18 @@ func main() {
 	kafka.InitKafka()
 
 	kafka.StartAllConsumers()
+
+	ticker := time.NewTicker(10 * time.Second)
+	defer ticker.Stop()
+
+	go func() {
+		for {
+			select {
+			case <-ticker.C:
+				kafka.AggregateData()
+			}
+		}
+	}()
 
 	r := router.InitRouter()
 
