@@ -2,6 +2,7 @@ package main
 
 import (
 	"backend/config"
+	"backend/db"
 	"backend/kafka"
 	"backend/router"
 	"log"
@@ -12,6 +13,7 @@ import (
 func main() {
 	config.InitConfig()
 	kafka.InitKafka()
+	db.InitMongoDB()
 
 	kafka.StartAllConsumers()
 

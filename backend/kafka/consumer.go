@@ -2,6 +2,7 @@ package kafka
 
 import (
 	"backend/config"
+	"backend/db"
 	"backend/models"
 	"context"
 	"encoding/json"
@@ -20,7 +21,6 @@ var (
 
 func StartConsumer(topic string) {
 	// log.Printf("Here is the topic : %s", topic)
-	// Create a new consumer group
 	r := kafka.NewReader(kafka.ReaderConfig{
 		Brokers:  []string{config.AppConf.KafkaBrokerURL},
 		Topic:    topic,
@@ -75,11 +75,13 @@ func AggregateData() {
 
 	log.Println("Aggregated Page Views: ")
 	for url, count := range pageViewCounts {
+		db.AggregatePageViewData(url, count)
 		log.Printf("URL: %s, Page Views: %d\n", url, count)
 	}
 	log.Println("Aggregated Clicks: ")
 	for url, clicks := range clickCounts {
 		for target, count := range clicks {
+			db.AggregateClickData(url, target, count)
 			log.Printf("URL: %s, click id: %s, Clicks: %d\n", url, target, count)
 		}
 	}
@@ -90,6 +92,7 @@ func AggregateData() {
 			totalDuration += duration
 		}
 		avgDuration := totalDuration / len(durations)
+		db.AggregateSessionDurationData(url, avgDuration)
 		log.Printf("URL: %s, Average session duration: %d seconds\n", url, avgDuration)
 	}
 
