@@ -5,9 +5,14 @@ go 1.22.4
 require github.com/spf13/viper v1.19.0
 
 require (
+	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
+	github.com/google/uuid v1.4.0 // indirect
+	github.com/influxdata/influxdb-client-go/v2 v2.14.0 // indirect
+	github.com/influxdata/line-protocol v0.0.0-20200327222509-2487e7298839 // indirect
 	github.com/klauspost/compress v1.17.2 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect
+	github.com/oapi-codegen/runtime v1.0.0 // indirect
 	github.com/pierrec/lz4/v4 v4.1.15 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect
