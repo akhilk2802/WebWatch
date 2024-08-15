@@ -13,6 +13,9 @@ type Config struct {
 	KafkaTopicDuration string
 	ServerPort         string
 	KafkaGroupId       string
+	InfluxToken        string
+	InfluxBucket       string
+	InfluxOrganisation string
 }
 
 var AppConf Config
@@ -31,5 +34,8 @@ func InitConfig() {
 	AppConf.KafkaTopicDuration = viper.GetString("KAFKA_TOPIC_DURATION")
 	AppConf.ServerPort = viper.GetString("SERVER_PORT")
 	AppConf.KafkaGroupId = viper.GetString("KAFKA_GROUP_ID")
+	AppConf.InfluxToken = viper.GetString("INFLUX_TOKEN")
+	AppConf.InfluxBucket = viper.GetString("INFLUX_BUCKET")
+	AppConf.InfluxOrganisation = viper.GetString("INFLUX_ORGANISATION")
 
 }

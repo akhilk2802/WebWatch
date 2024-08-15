@@ -13,7 +13,8 @@ import (
 func main() {
 	config.InitConfig()
 	kafka.InitKafka()
-	db.InitMongoDB()
+	// db.InitMongoDB()
+	db.InitInfluxDB()
 
 	kafka.StartAllConsumers()
 

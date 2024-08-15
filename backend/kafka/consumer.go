@@ -20,7 +20,6 @@ var (
 )
 
 func StartConsumer(topic string) {
-	// log.Printf("Here is the topic : %s", topic)
 	r := kafka.NewReader(kafka.ReaderConfig{
 		Brokers:  []string{config.AppConf.KafkaBrokerURL},
 		Topic:    topic,
@@ -35,8 +34,6 @@ func StartConsumer(topic string) {
 		m, err := r.ReadMessage(context.Background())
 		if err != nil {
 			log.Printf("could not read message: %v", err)
-			// Optionally, add a retry mechanism or log the error for monitoring purposes
-			// continue
 		}
 		var event models.Event
 		err = json.Unmarshal(m.Value, &event)
@@ -44,8 +41,6 @@ func StartConsumer(topic string) {
 			log.Printf("could not unmarshal message: %v", err)
 			continue
 		}
-		// log.Printf("message at offset %d: key=%s value=%s\n", m.Offset, string(m.Key), string(m.Value))
-
 		processEvent(event)
 	}
 
@@ -55,15 +50,18 @@ func processEvent(event models.Event) {
 	mu.Lock()
 	defer mu.Unlock()
 	switch event.Type {
-	case "page_view":
+	case "pageview":
 		log.Printf("url : %s", event.URL)
+		db.StorePageViewData(event.URL, 1)
 		pageViewCounts[event.URL]++
 	case "click":
+		db.StoreClickData(event.URL, event.Target, 1)
 		if clickCounts[event.URL] == nil {
 			clickCounts[event.URL] = make(map[string]int)
 		}
 		clickCounts[event.URL][event.Target]++
 	case "duration":
+		db.StoreSessionDurationData(event.URL, event.Duration)
 		sessionDuration[event.URL] = append(sessionDuration[event.URL], event.Duration)
 	}
 
