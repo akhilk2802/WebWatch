@@ -1,6 +1,7 @@
 (function () {
   const backendUrl = "http://localhost:8080/track";
   let startTime = new Date().getTime();
+  let idleStartTime = new Date().getTime();
 
   const sendData = (data) => {
     console.log("event_type: ", data.type);
