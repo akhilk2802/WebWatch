@@ -58,7 +58,6 @@ func StoreSessionDurationData(url string, avgDuration int) {
 }
 
 func AggregatePageViewData(url string, count int) {
-	log.Println("adding pageview to DB")
 	p := influxdb2.NewPoint("pageviews",
 		map[string]string{
 			"url":       url,
