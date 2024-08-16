@@ -18,9 +18,21 @@ func InitKafka() {
 		partitions        int
 		replicationFactor int
 	}{
-		{"pageview-topic", 1, 1},
-		{"click-topic", 1, 1},
-		{"duration-topic", 1, 1},
+		{"pageview", 1, 1},
+		{"click", 1, 1},
+		{"duration", 1, 1},
+		{"scroll", 1, 1},
+		{"mousemove", 1, 1},
+		{"hover", 1, 1},
+		{"form_submission", 1, 1},
+		{"field_focus", 1, 1},
+		{"field_blur", 1, 1},
+		{"idle_time", 1, 1},
+		{"video_play", 1, 1},
+		{"video_completion", 1, 1},
+		{"audio_play", 1, 1},
+		{"download", 1, 1},
+		{"image_view", 1, 1},
 	}
 
 	for _, topicConfig := range topicConfigs {
@@ -92,8 +104,8 @@ func ProduceMessage(eventType string, key string, message []byte) {
 		Writer[eventType] = writer
 	}
 
-	log.Printf("Event Type : %s", eventType)
-	log.Printf("Message : %s", message)
+	// log.Printf("Event Type : %s", eventType)
+	// log.Printf("Message : %s", message)
 
 	err := writer.WriteMessages(context.Background(),
 		kafka.Message{
