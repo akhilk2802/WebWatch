@@ -1,0 +1,61 @@
+.container-demo-main {
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 2px solid black;
+  border-color: black;
+  border-radius: 10px;
+  padding: 20px;
+}
+.container-demo-main .col-demo {
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+.container-demo-main .container-demo-form {
+  padding: 15px;
+  margin: 10px 0;
+  border: 1px solid red;
+  border-radius: 5px;
+}
+.container-demo-main .container-demo-scroll {
+  max-height: 325px;
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+.container-demo-main .container-demo-video {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+}
+.container-demo-main .container-demo-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.container-demo-main .container-demo-image {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+}
+.container-demo-main .container-demo-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover; /* Ensure the image covers the container */
+}/*# sourceMappingURL=demo.css.map */
