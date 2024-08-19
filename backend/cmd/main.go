@@ -4,6 +4,7 @@ import (
 	"backend/config"
 	"backend/db"
 	"backend/kafka"
+	"backend/logger"
 	"backend/router"
 	"log"
 	"net/http"
@@ -11,11 +12,12 @@ import (
 )
 
 func main() {
+	logger.InitLogger()
 	config.InitConfig()
 	kafka.InitKafka()
-	// db.InitMongoDB()
 	db.InitInfluxDB()
 
+	logger.Info("starting consumers")
 	kafka.StartAllConsumers()
 
 	ticker := time.NewTicker(10 * time.Second)
