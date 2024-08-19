@@ -2,6 +2,7 @@ package db
 
 import (
 	"backend/config"
+	"backend/logger"
 	"context"
 	"log"
 	"time"
@@ -20,10 +21,11 @@ func InitInfluxDB() {
 }
 
 func writeData(p *write.Point) {
-	log.Printf("Writing data to InfluxDB : %v", p)
+	logger.Logger.Printf("Writing data to InfluxDB : %v", p)
 	err := writeAPI.WritePoint(context.Background(), p)
 	if err != nil {
-		log.Fatalf("Failed to write data to InfluxDB: %v", err)
+		logger.Logger.Fatalf("Failed to write data to InfluxDB: %v", err)
+
 	}
 }
 

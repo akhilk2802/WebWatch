@@ -2,8 +2,8 @@ package kafka
 
 import (
 	"backend/config"
+	"backend/logger"
 	"context"
-	"log"
 
 	"github.com/segmentio/kafka-go"
 )
@@ -38,7 +38,7 @@ func InitKafka() {
 	for _, topicConfig := range topicConfigs {
 		err := createTopic(topicConfig.name, topicConfig.partitions, topicConfig.replicationFactor)
 		if err != nil {
-			log.Fatalf("failed to create topic: %v", err)
+			logger.Logger.Fatalf("failed to create topic: %v", err)
 		}
 		Writer[topicConfig.name] = &kafka.Writer{
 			Addr:     kafka.TCP(config.AppConf.KafkaBrokerURL),
@@ -86,12 +86,12 @@ func ProduceMessage(eventType string, key string, message []byte) {
 
 	writer, exists := Writer[eventType]
 	if !exists {
-		log.Printf("No Writer configured for eventType: %s\n", eventType)
+		logger.Logger.Printf("No Writer configured for eventType: %s\n", eventType)
 
 		// Try to create the topic if it doesn't exist
 		err := createTopic(eventType, 1, 1)
 		if err != nil {
-			log.Fatalf("failed to create topic: %v", err)
+			logger.Logger.Fatalf("failed to create topic: %v", err)
 			return
 		}
 
@@ -104,9 +104,6 @@ func ProduceMessage(eventType string, key string, message []byte) {
 		Writer[eventType] = writer
 	}
 
-	// log.Printf("Event Type : %s", eventType)
-	// log.Printf("Message : %s", message)
-
 	err := writer.WriteMessages(context.Background(),
 		kafka.Message{
 			Key:   []byte(key),
@@ -114,6 +111,6 @@ func ProduceMessage(eventType string, key string, message []byte) {
 		},
 	)
 	if err != nil {
-		log.Fatal("failed to write messages: ", err)
+		logger.Logger.Fatal("failed to write messages: ", err)
 	}
 }

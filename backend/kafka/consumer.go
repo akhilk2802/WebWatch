@@ -3,10 +3,10 @@ package kafka
 import (
 	"backend/config"
 	"backend/db"
+	"backend/logger"
 	"backend/models"
 	"context"
 	"encoding/json"
-	"log"
 	"sync"
 
 	"github.com/segmentio/kafka-go"
@@ -34,7 +34,7 @@ var (
 func StartConsumer(topic string) {
 
 	if topic == "" {
-		log.Fatal("Topic is empty")
+		logger.Logger.Fatal("Topic is empty")
 	}
 
 	r := kafka.NewReader(kafka.ReaderConfig{
@@ -50,12 +50,12 @@ func StartConsumer(topic string) {
 	for {
 		m, err := r.ReadMessage(context.Background())
 		if err != nil {
-			log.Printf("could not read message: %v", err)
+			logger.Logger.Printf("could not read message: %v", err)
 		}
 		var event models.Event
 		err = json.Unmarshal(m.Value, &event)
 		if err != nil {
-			log.Printf("could not unmarshal message: %v", err)
+			logger.Logger.Printf("could not unmarshal message: %v", err)
 			continue
 		}
 		processEvent(event)
@@ -69,7 +69,7 @@ func processEvent(event models.Event) {
 
 	switch event.Type {
 	case "pageview":
-		log.Printf("url : %s", event.URL)
+		logger.Logger.Printf("url : %s", event.URL)
 		db.StorePageViewData(event.URL, 1)
 		pageViewCounts[event.URL]++
 
@@ -145,7 +145,7 @@ func processEvent(event models.Event) {
 		imageViewCounts[event.URL]++
 
 	default:
-		log.Printf("Unhandled event type: %s", event.Type)
+		logger.Logger.Printf("Unhandled event type: %s", event.Type)
 	}
 }
 
@@ -153,21 +153,21 @@ func AggregateData() {
 	mu.Lock()
 	defer mu.Unlock()
 
-	log.Println("Aggregated Page Views: ")
+	logger.Logger.Println("Aggregated Page Views: ")
 	for url, count := range pageViewCounts {
 		db.AggregatePageViewData(url, count)
-		log.Printf("URL: %s, Page Views: %d\n", url, count)
+		logger.Logger.Printf("URL: %s, Page Views: %d\n", url, count)
 	}
 
-	log.Println("Aggregated Clicks: ")
+	logger.Logger.Println("Aggregated Clicks: ")
 	for url, clicks := range clickCounts {
 		for target, count := range clicks {
 			db.AggregateClickData(url, target, count)
-			log.Printf("URL: %s, click id: %s, Clicks: %d\n", url, target, count)
+			logger.Logger.Printf("URL: %s, click id: %s, Clicks: %d\n", url, target, count)
 		}
 	}
 
-	log.Println("Aggregated Session Durations: ")
+	logger.Logger.Println("Aggregated Session Durations: ")
 	for url, durations := range sessionDuration {
 		var totalDuration int
 		for _, duration := range durations {
@@ -175,10 +175,10 @@ func AggregateData() {
 		}
 		avgDuration := totalDuration / len(durations)
 		db.AggregateSessionDurationData(url, avgDuration)
-		log.Printf("URL: %s, Average session duration: %d seconds\n", url, avgDuration)
+		logger.Logger.Printf("URL: %s, Average session duration: %d seconds\n", url, avgDuration)
 	}
 
-	log.Println("Aggregated Scroll Data: ")
+	logger.Logger.Println("Aggregated Scroll Data: ")
 	for url, scrolls := range scrollData {
 		var totalScroll int
 		for _, scroll := range scrolls {
@@ -186,10 +186,10 @@ func AggregateData() {
 		}
 		avgScroll := totalScroll / len(scrolls)
 		db.AggregateScrollData(url, avgScroll)
-		log.Printf("URL: %s, Average scroll percentage: %d\n", url, avgScroll)
+		logger.Logger.Printf("URL: %s, Average scroll percentage: %d\n", url, avgScroll)
 	}
 
-	log.Println("Aggregated Mouse Movements: ")
+	logger.Logger.Println("Aggregated Mouse Movements: ")
 	for url, movements := range mouseMovementData {
 		var totalX, totalY int
 		for _, movement := range movements {
@@ -199,36 +199,36 @@ func AggregateData() {
 		avgX := totalX / len(movements)
 		avgY := totalY / len(movements)
 		db.AggregateMouseMovementData(url, avgX, avgY)
-		log.Printf("URL: %s, Average X: %d, Average Y: %d\n", url, avgX, avgY)
+		logger.Logger.Printf("URL: %s, Average X: %d, Average Y: %d\n", url, avgX, avgY)
 	}
 
-	log.Println("Aggregated Hover Data: ")
+	logger.Logger.Println("Aggregated Hover Data: ")
 	for url, hovers := range hoverCounts {
 		for target, count := range hovers {
 			db.AggregateHoverData(url, target, count)
-			log.Printf("URL: %s, Target: %s, Hover Count: %d\n", url, target, count)
+			logger.Logger.Printf("URL: %s, Target: %s, Hover Count: %d\n", url, target, count)
 		}
 	}
 
-	log.Println("Aggregated Form Submissions: ")
+	logger.Logger.Println("Aggregated Form Submissions: ")
 	for formID, count := range formSubmissionCounts {
 		db.AggregateFormSubmissionData(formID, "", count)
-		log.Printf("Form ID: %s, Submission Count: %d\n", formID, count)
+		logger.Logger.Printf("Form ID: %s, Submission Count: %d\n", formID, count)
 	}
 
-	log.Println("Aggregated Field Focuses: ")
+	logger.Logger.Println("Aggregated Field Focuses: ")
 	for fieldID, count := range fieldFocusCounts {
 		db.AggregateFieldFocusData(fieldID, "", count)
-		log.Printf("Field ID: %s, Focus Count: %d\n", fieldID, count)
+		logger.Logger.Printf("Field ID: %s, Focus Count: %d\n", fieldID, count)
 	}
 
-	log.Println("Aggregated Field Blurs: ")
+	logger.Logger.Println("Aggregated Field Blurs: ")
 	for fieldID, count := range fieldBlurCounts {
 		db.AggregateFieldBlurData(fieldID, "", count)
-		log.Printf("Field ID: %s, Blur Count: %d\n", fieldID, count)
+		logger.Logger.Printf("Field ID: %s, Blur Count: %d\n", fieldID, count)
 	}
 
-	log.Println("Aggregated Idle Times: ")
+	logger.Logger.Println("Aggregated Idle Times: ")
 	for url, times := range idleTimes {
 		var totalDuration int
 		for _, duration := range times {
@@ -236,73 +236,45 @@ func AggregateData() {
 		}
 		avgDuration := totalDuration / len(times)
 		db.AggregateIdleTimeData(url, avgDuration)
-		log.Printf("URL: %s, Average Idle Duration: %d seconds\n", url, avgDuration)
+		logger.Logger.Printf("URL: %s, Average Idle Duration: %d seconds\n", url, avgDuration)
 	}
 
-	log.Println("Aggregated Video Plays: ")
+	logger.Logger.Println("Aggregated Video Plays: ")
 	for url, videoPlays := range videoPlayCounts {
 		for videoID, count := range videoPlays {
 			db.AggregateVideoPlayData(url, videoID, count)
-			log.Printf("URL: %s, Video ID: %s, Play Count: %d\n", url, videoID, count)
+			logger.Logger.Printf("URL: %s, Video ID: %s, Play Count: %d\n", url, videoID, count)
 		}
 	}
 
-	log.Println("Aggregated Video Completions: ")
+	logger.Logger.Println("Aggregated Video Completions: ")
 	for url, videoCompletions := range videoCompletionCounts {
 		for videoID, count := range videoCompletions {
 			db.AggregateVideoCompletionData(url, videoID, count)
-			log.Printf("URL: %s, Video ID: %s, Completion Count: %d\n", url, videoID, count)
+			logger.Logger.Printf("URL: %s, Video ID: %s, Completion Count: %d\n", url, videoID, count)
 		}
 	}
 
-	log.Println("Aggregated Audio Plays: ")
+	logger.Logger.Println("Aggregated Audio Plays: ")
 	for url, audioPlays := range audioPlayCounts {
 		for audioID, count := range audioPlays {
 			db.AggregateAudioPlayData(url, audioID, count)
-			log.Printf("URL: %s, Audio ID: %s, Play Count: %d\n", url, audioID, count)
+			logger.Logger.Printf("URL: %s, Audio ID: %s, Play Count: %d\n", url, audioID, count)
 		}
 	}
 
-	log.Println("Aggregated Downloads: ")
+	logger.Logger.Println("Aggregated Downloads: ")
 	for url, count := range downloadCounts {
 		db.AggregateDownloadData(url, url, count)
-		log.Printf("URL: %s, Download Count: %d\n", url, count)
+		logger.Logger.Printf("URL: %s, Download Count: %d\n", url, count)
 	}
 
-	log.Println("Aggregated Image Views: ")
+	logger.Logger.Println("Aggregated Image Views: ")
 	for url, count := range imageViewCounts {
 		db.AggregateImageViewData(url, url, count)
-		log.Printf("URL: %s, Image View Count: %d\n", url, count)
+		logger.Logger.Printf("URL: %s, Image View Count: %d\n", url, count)
 	}
 }
-
-// func StartAllConsumers() {
-// 	topics := []string{
-// 		config.AppConf.KafkaTopicPageView,
-// 		config.AppConf.KafkaTopicClick,
-// 		config.AppConf.KafkaTopicDuration,
-// 		config.AppConf.KafkaTopicScroll,
-// 		config.AppConf.KafkaTopicMouseMove,
-// 		config.AppConf.KafkaTopicHover,
-// 		config.AppConf.KafkaTopicFormSubmission,
-// 		config.AppConf.KafkaTopicFieldFocus,
-// 		config.AppConf.KafkaTopicFieldBlur,
-// 		config.AppConf.KafkaTopicIdleTime,
-// 		config.AppConf.KafkaTopicVideoPlay,
-// 		config.AppConf.KafkaTopicVideoCompletion,
-// 		config.AppConf.KafkaTopicAudioPlay,
-// 		config.AppConf.KafkaTopicDownload,
-// 		config.AppConf.KafkaTopicImageView,
-// 	}
-
-// 	for _, topic := range topics {
-// 		if topic != "" {
-// 			go StartConsumer(topic)
-// 		} else {
-// 			log.Println("Skipping empty topic: ", topic)
-// 		}
-// 	}
-// }
 
 func StartAllConsumers() {
 	topics := map[string]string{
@@ -325,10 +297,10 @@ func StartAllConsumers() {
 
 	for key, topic := range topics {
 		if topic != "" {
-			log.Printf("Starting consumer for topic: %s (config key: %s)\n", topic, key)
+			logger.Logger.Printf("Starting consumer for topic: %s (config key: %s)\n", topic, key)
 			go StartConsumer(topic)
 		} else {
-			log.Printf("Skipping empty topic: (config key: %s)\n", key)
+			logger.Logger.Printf("Skipping empty topic: (config key: %s)\n", key)
 		}
 	}
 }

@@ -1,7 +1,7 @@
 package config
 
 import (
-	"log"
+	"backend/logger"
 
 	"github.com/spf13/viper"
 )
@@ -39,7 +39,7 @@ func InitConfig() {
 	viper.AddConfigPath("/backend/")
 	err := viper.ReadInConfig()
 	if err != nil {
-		log.Fatalf("Error While reading config file %s", err)
+		logger.Logger.Fatalf("Error While reading config file %s", err)
 	}
 
 	AppConf.KafkaBrokerURL = viper.GetString("KAFKA_BROKER_URL")

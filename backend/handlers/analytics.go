@@ -2,10 +2,10 @@ package handlers
 
 import (
 	"backend/kafka"
+	"backend/logger"
 	"backend/models"
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
@@ -29,7 +29,7 @@ func TrackEvent(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	log.Printf("Event: %v", event.Type)
+	logger.Logger.Printf("Event: %v", event.Type)
 	kafka.ProduceMessage(event.Type, event.UserID, eventData)
 	w.WriteHeader(http.StatusNoContent)
 }

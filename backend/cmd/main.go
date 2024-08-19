@@ -35,7 +35,9 @@ func main() {
 	r := router.InitRouter()
 
 	log.Println("Starting server on port :", config.AppConf.ServerPort)
+	logger.Info("Starting server on port :", config.AppConf.ServerPort)
 	if err := http.ListenAndServe(":"+config.AppConf.ServerPort, r); err != nil {
 		log.Fatalf("could not start server : %s\n", err.Error())
+		logger.Logger.Fatalf("could not start server : %s\n", err.Error())
 	}
 }
