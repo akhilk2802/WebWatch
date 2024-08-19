@@ -65,6 +65,7 @@ func StoreFormSubmissionData(formID string, formClassName string, url string) {
 }
 
 func StoreFieldFocusData(fieldID string, fieldName string, url string) {
+	log.Println("writing field focus data to DB")
 	storeData("field_focuses", map[string]string{"field_id": fieldID, "field_name": fieldName, "url": url, "data_type": "raw"}, map[string]interface{}{"focus_count": 1})
 }
 

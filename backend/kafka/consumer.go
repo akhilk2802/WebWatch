@@ -276,30 +276,59 @@ func AggregateData() {
 	}
 }
 
+// func StartAllConsumers() {
+// 	topics := []string{
+// 		config.AppConf.KafkaTopicPageView,
+// 		config.AppConf.KafkaTopicClick,
+// 		config.AppConf.KafkaTopicDuration,
+// 		config.AppConf.KafkaTopicScroll,
+// 		config.AppConf.KafkaTopicMouseMove,
+// 		config.AppConf.KafkaTopicHover,
+// 		config.AppConf.KafkaTopicFormSubmission,
+// 		config.AppConf.KafkaTopicFieldFocus,
+// 		config.AppConf.KafkaTopicFieldBlur,
+// 		config.AppConf.KafkaTopicIdleTime,
+// 		config.AppConf.KafkaTopicVideoPlay,
+// 		config.AppConf.KafkaTopicVideoCompletion,
+// 		config.AppConf.KafkaTopicAudioPlay,
+// 		config.AppConf.KafkaTopicDownload,
+// 		config.AppConf.KafkaTopicImageView,
+// 	}
+
+// 	for _, topic := range topics {
+// 		if topic != "" {
+// 			go StartConsumer(topic)
+// 		} else {
+// 			log.Println("Skipping empty topic: ", topic)
+// 		}
+// 	}
+// }
+
 func StartAllConsumers() {
-	topics := []string{
-		config.AppConf.KafkaTopicPageView,
-		config.AppConf.KafkaTopicClick,
-		config.AppConf.KafkaTopicDuration,
-		config.AppConf.KafkaTopicScroll,
-		config.AppConf.KafkaTopicMouseMove,
-		config.AppConf.KafkaTopicHover,
-		config.AppConf.KafkaTopicFormSubmission,
-		config.AppConf.KafkaTopicFieldFocus,
-		config.AppConf.KafkaTopicFieldBlur,
-		config.AppConf.KafkaTopicIdleTime,
-		config.AppConf.KafkaTopicVideoPlay,
-		config.AppConf.KafkaTopicVideoCompletion,
-		config.AppConf.KafkaTopicAudioPlay,
-		config.AppConf.KafkaTopicDownload,
-		config.AppConf.KafkaTopicImageView,
+	topics := map[string]string{
+		"KafkaTopicPageView":        config.AppConf.KafkaTopicPageView,
+		"KafkaTopicClick":           config.AppConf.KafkaTopicClick,
+		"KafkaTopicDuration":        config.AppConf.KafkaTopicDuration,
+		"KafkaTopicScroll":          config.AppConf.KafkaTopicScroll,
+		"KafkaTopicMouseMove":       config.AppConf.KafkaTopicMouseMove,
+		"KafkaTopicHover":           config.AppConf.KafkaTopicHover,
+		"KafkaTopicFormSubmission":  config.AppConf.KafkaTopicFormSubmission,
+		"KafkaTopicFieldFocus":      config.AppConf.KafkaTopicFieldFocus,
+		"KafkaTopicFieldBlur":       config.AppConf.KafkaTopicFieldBlur,
+		"KafkaTopicIdleTime":        config.AppConf.KafkaTopicIdleTime,
+		"KafkaTopicVideoPlay":       config.AppConf.KafkaTopicVideoPlay,
+		"KafkaTopicVideoCompletion": config.AppConf.KafkaTopicVideoCompletion,
+		"KafkaTopicAudioPlay":       config.AppConf.KafkaTopicAudioPlay,
+		"KafkaTopicDownload":        config.AppConf.KafkaTopicDownload,
+		"KafkaTopicImageView":       config.AppConf.KafkaTopicImageView,
 	}
 
-	for _, topic := range topics {
+	for key, topic := range topics {
 		if topic != "" {
+			log.Printf("Starting consumer for topic: %s (config key: %s)\n", topic, key)
 			go StartConsumer(topic)
 		} else {
-			log.Println("Skipping empty topic: ", topic)
+			log.Printf("Skipping empty topic: (config key: %s)\n", key)
 		}
 	}
 }

@@ -1,9 +1,17 @@
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import "../styles/css/demo.css";
+import sampleVideo from "../assets/video/sample-video.mp4";
 
 const Demo = () => {
   const porscheImageUrl =
     "https://files.porsche.com/filestore/image/multimedia/none/992-gt3-rs-modelimage-sideshot/model/cfbb8ed3-1a15-11ed-80f5-005056bbdc38/porsche-model.png";
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevents the page from reloading
+    const formData = new FormData(event.target);
+    const formDataObj = Object.fromEntries(formData.entries());
+    console.log("Form submitted:", formDataObj);
+  };
 
   return (
     <>
@@ -13,7 +21,7 @@ const Demo = () => {
           <Col className="col-demo">
             <h5>Scroll section</h5>
             <Container className="container-demo-scroll">
-              <p>
+              <p id="scrollable">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -66,7 +74,7 @@ const Demo = () => {
           <Col className="col-demo">
             <h5>Form Section</h5>
             <Container className="container-demo-form">
-              <Form>
+              <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>
                   <Form.Control type="email" placeholder="Enter email" />
@@ -93,15 +101,10 @@ const Demo = () => {
           <Col className="col-demo">
             <h5>Video Section</h5>
             <Container className="container-demo-video">
-              <iframe
-                width="100%"
-                height="100%"
-                src="https://www.youtube.com/embed/ccqn7r9WUHI?si=x0WNj62YYwGe8cuZ"
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+              <video id="demo-video" width="100%" height="100%" controls>
+                <source src={sampleVideo} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </Container>
           </Col>
           <Col className="col-demo">
@@ -111,6 +114,9 @@ const Demo = () => {
             </Container>
           </Col>
         </Row>
+        <Container className="container-demo-button">
+          <Button className="button">Download</Button>
+        </Container>
       </Container>
     </>
   );

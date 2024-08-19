@@ -3,6 +3,8 @@
   let startTime = new Date().getTime();
   let idleStartTime = null;
   const idleTimeout = 60000;
+  let isFieldFocused = false;
+  let currentFocusedElement = null;
 
   const sendData = (data) => {
     console.log("event_type: ", data.type);
@@ -36,15 +38,18 @@
   };
 
   const trackClick = (event) => {
-    const data = {
-      type: "click",
-      x: event.clientX,
-      y: event.clientY,
-      target: event.target.tagName,
-      userId: getUserId(),
-      timestamp: new Date().toISOString(),
-    };
-    sendData(data);
+    if (!isFieldFocused) {
+      const data = {
+        type: "click",
+        x: event.clientX,
+        y: event.clientY,
+        target: event.target.tagName,
+        userId: getUserId(),
+        timestamp: new Date().toISOString(),
+      };
+      sendData(data);
+    }
+    isFieldFocused = false;
   };
 
   const trackDuration = () => {
@@ -72,6 +77,22 @@
       url: window.location.href,
       userId: getUserId(),
       timestamp: new Date().toISOString(),
+      scrollPercentage: scrollPercentage,
+    };
+    sendData(data);
+  };
+
+  const trackElementScroll = (element) => {
+    const scrollTop = element.scrollTop;
+    const elementHeight = element.scrollHeight - element.clientHeight;
+    const scrollPercentage = Math.round((scrollTop / elementHeight) * 100);
+
+    const data = {
+      type: "element_scroll",
+      url: window.location.href,
+      userId: getUserId(),
+      timestamp: new Date().toISOString(),
+      elementId: element.id || null,
       scrollPercentage: scrollPercentage,
     };
     sendData(data);
@@ -113,6 +134,11 @@
 
   // Monitor when users focus on or leave the form fields
   const trackFieldFocus = (event) => {
+    if (currentFocusedElement !== event.target) {
+      isFieldFocused = true;
+      currentFocusedElement = event.target;
+    }
+    // isFieldFocused = true;
     const data = {
       type: "field_focus",
       fieldId: event.target.id || null,
@@ -124,14 +150,23 @@
   };
 
   const trackFieldBlur = (event) => {
-    const data = {
-      type: "field_blur",
-      fieldId: event.target.id || null,
-      fieldName: event.target.name || null,
-      userId: getUserId(),
-      timestamp: new Date().toISOString(),
-    };
-    sendData(data);
+    setTimeout(() => {
+      if (
+        document.activeElement &&
+        document.activeElement.form === event.target.form
+      ) {
+        return;
+      }
+      currentFocusedElement = null;
+      const data = {
+        type: "field_blur",
+        fieldId: event.target.id || null,
+        fieldName: event.target.name || null,
+        userId: getUserId(),
+        timestamp: new Date().toISOString(),
+      };
+      sendData(data);
+    }, 0);
   };
 
   const trackIdleTime = (idleDuration) => {
@@ -227,11 +262,21 @@
   window.addEventListener("click", trackClick);
   window.addEventListener("beforeunload", trackDuration);
   window.addEventListener("scroll", trackScroll);
+
+  // Track element scroll
+  const scrollableElements = document.querySelectorAll("div, p, section");
+  console.log("scrolling");
+  scrollableElements.forEach((element) => {
+    if (element.scrollHeight > element.clientHeight) {
+      element.addEventListener("scroll", () => trackElementScroll(element));
+    }
+  });
+
   window.addEventListener("mousemove", resetIdleTimer);
   window.addEventListener("mousemove", trackMouseMovement);
   window.addEventListener("keypress", resetIdleTimer);
 
-  window.addEventListener("mouseenter", trackHover, true);
+  window.addEventListener("mouseover", trackHover, true);
   document.addEventListener("submit", trackFormSubmission);
   document.addEventListener("focus", trackFieldFocus, true);
   document.addEventListener("blur", trackFieldBlur, true);
@@ -243,7 +288,11 @@
 
   // Download tracking
   document.addEventListener("click", function (event) {
-    if (event.target.tagName.toLowerCase() === "a" && event.target.href) {
+    if (
+      (event.target.tagName.toLowerCase() === "a" && event.target.href) ||
+      (event.target.tagName.toLowerCase() === "button" &&
+        event.target.classList.contains("button"))
+    ) {
       trackDownload(event);
     }
   });
