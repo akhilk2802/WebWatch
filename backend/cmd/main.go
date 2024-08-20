@@ -23,12 +23,18 @@ func main() {
 	ticker := time.NewTicker(10 * time.Second)
 	defer ticker.Stop()
 
+	// go func() {
+	// 	for {
+	// 		select {
+	// 		case <-ticker.C:
+	// 			kafka.AggregateData()
+	// 		}
+	// 	}
+	// }()
+
 	go func() {
-		for {
-			select {
-			case <-ticker.C:
-				kafka.AggregateData()
-			}
+		for range ticker.C {
+			kafka.AggregateData()
 		}
 	}()
 
