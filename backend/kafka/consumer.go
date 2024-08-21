@@ -45,10 +45,14 @@ func StartConsumer(topic string) {
 		MaxBytes: 10e6, // 10MB
 	})
 
+	logger.Logger.Printf("Here is the group Id : %v", config.AppConf.KafkaGroupId)
+	logger.Logger.Printf("Here is the topic : %v", topic)
+
 	defer r.Close()
 
 	for {
 		m, err := r.ReadMessage(context.Background())
+		logger.Logger.Printf("Message : %v", m)
 		if err != nil {
 			logger.Logger.Printf("could not read message: %v", err)
 		}
@@ -60,7 +64,6 @@ func StartConsumer(topic string) {
 		}
 		processEvent(event)
 	}
-
 }
 
 func processEvent(event models.Event) {
