@@ -104,5 +104,74 @@ WebWatch is a real-time website analytics tool designed to track and visualize v
 ```
     git clone https://github.com/akhilk2802/WebWatch
     cd webwatch
+```
+
+2. Setup Kafka
+
+   - Start Zookeeper
+
+   ```
+   bin/zookeeper-server-start.sh config/zookeeper.properties
+   ```
+
+   - Start Kafka
+
+   ```
+   bin/kafka-server-start.sh config/server.properties
+   ```
+
+   - Create topics (Optional, coz after running the project, it will create by itself)
+
+3. Setup InfluxDB
+
+   - Start InfluxDB and configure your database, organization, and buckets.
+   - Generate an InfluxDB token for authentication.
+
+4. Setup Grafana
+
+   - Start Grafana and configure your InfluxDB connection.
+   - Import predefined dashboards or create custom ones. (Working on to export existing dashboards)
+
+5. Environment Variables
 
 ```
+KAFKA_BROKER_URL=
+
+KAFKA_TOPIC_PAGEVIEW=
+KAFKA_TOPIC_CLICK=
+KAFKA_TOPIC_DURATION=
+KAFKA_TOPIC_SCROLL=
+KAFKA_TOPIC_MOUSEMOVE=
+KAFKA_TOPIC_HOVER=
+KAFKA_TOPIC_FORM_SUBMISSION=
+KAFKA_TOPIC_FIELD_FOCUS=
+KAFKA_TOPIC_FIELD_BLUR=
+KAFKA_TOPIC_IDLE_TIME=
+KAFKA_TOPIC_VIDEO_PLAY=
+KAFKA_TOPIC_VIDEO_COMPLETION=
+KAFKA_TOPIC_AUDIO_PLAY=
+KAFKA_TOPIC_DOWNLOAD=
+KAFKA_TOPIC_IMAGE_VIEW=
+
+
+SERVER_PORT=
+KAFKA_GROUP_ID=
+INFLUX_TOKEN=
+INFLUX_BUCKET=
+INFLUX_ORGANISATION=
+```
+
+6. Run the backend
+
+```
+cd backend
+go run cmd/main.go
+```
+
+7. Embed tracking.js
+
+   - Add the tracking.js script to your website to start capturing user data. (in index.html)
+
+8. View Dashboards
+
+   - Access Grafana at http://localhost:3000 to visualize the captured data.
