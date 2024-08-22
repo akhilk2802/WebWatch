@@ -84,6 +84,7 @@ WebWatch is a real-time website analytics tool designed to track and visualize v
 #### Visualization:
 
 - **Grafana**: Creates dashboards and visualizes the data stored in InfluxDB.
+- **WebSockets**: You can build a websockets for a real time visuals on the dashboard
 
 ### 5. Setup and installation
 
