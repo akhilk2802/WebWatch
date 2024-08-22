@@ -192,6 +192,16 @@ go run cmd/main.go
 
 ### 7. Kafka Topics
 
+- **KAFKA_TOPIC_PAGEVIEW**: Tracks page views.
+- **KAFKA_TOPIC_CLICK**: Tracks click events.
+- **KAFKA_TOPIC_DURATION**: Tracks session duration.
+- **KAFKA_TOPIC_IDLE_TIME**: Tracks idle time.
+- **KAFKA_TOPIC_VIDEO_PLAY**: Tracks video plays.
+- **KAFKA_TOPIC_VIDEO_COMPLETION**: Tracks video completions.
+- **KAFKA_TOPIC_AUDIO_PLAY**: Tracks audio plays.
+- **KAFKA_TOPIC_AUDIO_COMPLETION**: Tracks audio completions.
+- **KAFKA_TOPIC_IMAGE_VIEW**: Tracks image views.
+
 ### 8. InfluxDB Schema
 
 - **Measurement**: `pageviews`, `clicks`, `session_durations`, `scrolls`, etc.
@@ -208,6 +218,9 @@ go run cmd/main.go
 - **Form Submissions**: Pie Chart, Time Series.
 - **Video Plays/Completions**: Gauge, Stat Panel.
 - **Downloads**: Bar Gauge, Pie Chart.
+
+- **To Use existing Dasboard**: Import from the `grafana-dashboard` folder
+
 
 ### 10. Future Enhancements
 
