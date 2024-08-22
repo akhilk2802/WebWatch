@@ -45,9 +45,6 @@ func StartConsumer(topic string) {
 		MaxBytes: 10e6, // 10MB
 	})
 
-	// logger.Logger.Printf("Here is the group Id : %v", config.AppConf.KafkaGroupId)
-	// logger.Logger.Printf("Here is the topic : %v", topic)
-
 	defer r.Close()
 
 	for {
