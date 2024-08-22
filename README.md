@@ -1,7 +1,5 @@
 # WebWatch: Real-Time Website Analytics 
 
-=============================================
-
 ## Table Of Contents 
 1. [Project Overview](#project-overview)
 2. [Features](#features)
@@ -22,6 +20,7 @@
 WebWatch is a real-time website analytics tool designed to track and visualize various user interactions on websites. It provides insights into user behavior by capturing data such as page views, clicks, scroll depth, mouse movements, video plays, and more.
 
 ### 2. Features
+
 - **Real-time analytics**: Get instant insights into user behavior on your website.
 - **Multi-platform support**: Track user interactions across various devices and browsers.
 - **Customizable dashboards**: Create personalized dashboards to focus on key metrics.
@@ -57,3 +56,36 @@ WebWatch is a real-time website analytics tool designed to track and visualize v
 #### Other Tools:
 - **Docker**: For containerization of the application.
 - **Kubernetes** (Optional): For container orchestration.
+
+
+### 4. Architecture
+
+#### Frontend:
+- **Embedded JavaScript**: `tracking.js` is embedded on the client website to capture user interactions.
+- **React-based Dashboard**: Used for data visualization and user interaction. (Working on it)
+
+#### Backend:
+- **Golang Server**: Handles incoming data and integrates with Kafka for event streaming.
+- **Kafka Producers**: Sends events to the appropriate Kafka topics based on event types.
+- **Kafka Consumers**: Processes events from Kafka topics and stores the data in InfluxDB.
+
+#### Data Storage:
+- **InfluxDB**: Used for storing both raw and aggregated data for analysis.
+
+#### Visualization:
+- **Grafana**: Creates dashboards and visualizes the data stored in InfluxDB.
+
+### 5. Setup and installation
+
+#### Prerequisites:
+
+- **Golang**: Install Go on your machine.
+- **Docker**: Install Docker on your machine.
+- **Kubernetes** (Optional): Install Kubernetes on your machine.
+- **Kafka**: Install Kafka on your machine.
+- **InfluxDB**: Install InfluxDB on your machine.
+- **Grafana**: Install Grafana on your machine.
+- **React**: Install React on your machine.
+
+#### Installation Steps:
+1. Clone the repository.
