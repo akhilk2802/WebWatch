@@ -19,3 +19,5 @@ kafka-topics.sh --list --bootstrap-server localhost:9092
 
 **To Delete a kafka topic running on the system**
 kafka-topics.sh --delete --topic <topicName> --bootstrap-server localhost:9092
+
+

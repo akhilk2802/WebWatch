@@ -45,8 +45,8 @@ func StartConsumer(topic string) {
 		MaxBytes: 10e6, // 10MB
 	})
 
-	logger.Logger.Printf("Here is the group Id : %v", config.AppConf.KafkaGroupId)
-	logger.Logger.Printf("Here is the topic : %v", topic)
+	// logger.Logger.Printf("Here is the group Id : %v", config.AppConf.KafkaGroupId)
+	// logger.Logger.Printf("Here is the topic : %v", topic)
 
 	defer r.Close()
 
@@ -72,7 +72,7 @@ func processEvent(event models.Event) {
 
 	switch event.Type {
 	case "pageview":
-		logger.Logger.Printf("url : %s", event.URL)
+		// logger.Logger.Printf("url : %s", event.URL)
 		db.StorePageViewData(event.URL, 1)
 		pageViewCounts[event.URL]++
 
