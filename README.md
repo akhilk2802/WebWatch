@@ -13,7 +13,7 @@
 9. [Grafana Dashboards](#grafana-dashboards)
 10. [Future Enhancements](#future-enhancements)
 11. [Contributing](#contributing)
-12. [License](#license)
+12. [How the visualisations look](#how-the-visualisations-look)
 13. [Acknowledgments](#acknowledgments)
 
 ### 1. Project Overview
@@ -175,3 +175,58 @@ go run cmd/main.go
 8. View Dashboards
 
    - Access Grafana at http://localhost:3000 to visualize the captured data.
+
+### 6. Usage
+
+- Embed the tracker
+
+  - Add the following script to the <head> or <body> section of your HTML:
+
+  ```
+  <script src="path/to/file/tracking-js></script>
+  ```
+
+- Accessing the Dashboard
+  - Access Grafana at http://localhost:3000 to visualize the captured data.
+  - Explore predefined dashboards or create custom visualizations based on your data.
+
+### 7. Kafka Topics
+
+### 8. InfluxDB Schema
+
+- **Measurement**: `pageviews`, `clicks`, `session_durations`, `scrolls`, etc.
+- **Tags**: `url`, `target`, `data_type` (raw/aggregated).
+- **Fields**: `_value`, `scroll_percentage`, `avg_duration`, etc.
+
+### 9. Grafana Dashboards
+
+- **Page Views**: Time Series, Heatmap.
+- **Clicks**: Bar Gauge, Stat Panel.
+- **Session Duration**: Gauge, Histogram.
+- **Scroll Depth**: Time Series, Heatmap.
+- **Mouse Movements**: Heatmap, Geospatial Panel.
+- **Form Submissions**: Pie Chart, Time Series.
+- **Video Plays/Completions**: Gauge, Stat Panel.
+- **Downloads**: Bar Gauge, Pie Chart.
+
+### 10. Future Enhancements
+
+- **User Authentication**: Allow multiple users to sign up and use the service.
+- **Multi-tenant Support**: Allow users to create and manage their own data dashboards.
+- **Advanced Analytics**: Implement machine learning algorithms for predictive analytics.
+- **Scalability**: Deploy on AWS/GCP for scalability and reliability.
+
+### 11. Contributing
+
+- Fork the repository.
+- Create a new branch for your feature.
+- Submit a pull request for review.
+
+### 12. How the Visualisations look
+
+- ![Visualisation](/images/grafana.jpg)
+
+### 13. Acknowledgments
+
+- Special thanks to the creators of InfluxDB, Kafka, and Grafana.
+- Inspiration from various open-source analytics projects.
