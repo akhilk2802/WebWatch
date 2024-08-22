@@ -1,6 +1,7 @@
-# WebWatch: Real-Time Website Analytics 
+# WebWatch: Real-Time Website Analytics
 
-## Table Of Contents 
+## Table Of Contents
+
 1. [Project Overview](#project-overview)
 2. [Features](#features)
 3. [Technology Stack](#technology-stack)
@@ -37,42 +38,51 @@ WebWatch is a real-time website analytics tool designed to track and visualize v
 ### 3. Technology Stack
 
 #### Frontend:
+
 - **JavaScript**: Used for the Tracking.js to capture user interactions.
 - **React.js**: For building the User Dashboard, I haven't built Dashboard yet.
 - **React-Bootstrap**: Utilized for UI Components.
 
 #### Backend:
+
 - **Golang**: Handles data ingestion, processing, and Kafka integration.
 
 #### Data Streaming:
+
 - **Apache Kafka**: Used for event streaming.
 
 #### Data Storage:
+
 - **InfluxDB**: A time series database for real-time data storage.
 
 #### Visualization:
+
 - **Grafana**: Used for dashboard creation and visualization.
 
 #### Other Tools:
+
 - **Docker**: For containerization of the application.
 - **Kubernetes** (Optional): For container orchestration.
-
 
 ### 4. Architecture
 
 #### Frontend:
+
 - **Embedded JavaScript**: `tracking.js` is embedded on the client website to capture user interactions.
 - **React-based Dashboard**: Used for data visualization and user interaction. (Working on it)
 
 #### Backend:
+
 - **Golang Server**: Handles incoming data and integrates with Kafka for event streaming.
 - **Kafka Producers**: Sends events to the appropriate Kafka topics based on event types.
 - **Kafka Consumers**: Processes events from Kafka topics and stores the data in InfluxDB.
 
 #### Data Storage:
+
 - **InfluxDB**: Used for storing both raw and aggregated data for analysis.
 
 #### Visualization:
+
 - **Grafana**: Creates dashboards and visualizes the data stored in InfluxDB.
 
 ### 5. Setup and installation
@@ -88,5 +98,11 @@ WebWatch is a real-time website analytics tool designed to track and visualize v
 - **React**: Install React on your machine.
 
 #### Installation Steps:
+
 1. Clone the repository.
-``` git clone https://github.com/akhilk2802/WebWatch ```
+
+```
+    git clone https://github.com/akhilk2802/WebWatch
+    cd webwatch
+
+```
