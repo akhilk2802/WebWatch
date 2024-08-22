@@ -88,6 +88,8 @@ WebWatch is a real-time website analytics tool designed to track and visualize v
 
 ### 5. Setup and installation
 
+(frontend in this project was created only to test the features)
+
 #### Prerequisites:
 
 - **Golang**: Install Go on your machine.
@@ -222,13 +224,13 @@ go run cmd/main.go
 
 - **To Use existing Dasboard**: Import from the `grafana-dashboard` folder
 
-
 ### 10. Future Enhancements
 
 - **User Authentication**: Allow multiple users to sign up and use the service.
 - **Multi-tenant Support**: Allow users to create and manage their own data dashboards.
 - **Advanced Analytics**: Implement machine learning algorithms for predictive analytics.
 - **Scalability**: Deploy on AWS/GCP for scalability and reliability.
+- **Build Custom Dashboard**: Using React and ThreeJS, can build a custom dashboard
 
 ### 11. Contributing
 
