@@ -89,3 +89,4 @@ WebWatch is a real-time website analytics tool designed to track and visualize v
 
 #### Installation Steps:
 1. Clone the repository.
+``` git clone https://github.com/akhilk2802/WebWatch ```
