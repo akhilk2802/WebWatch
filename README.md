@@ -2,25 +2,29 @@
 
 ## Table Of Contents
 
-1. [Project Overview](#project-overview)
-2. [Features](#features)
-3. [Technology Stack](#technology-stack)
-4. [Architecture](#architecture)
-5. [Setup & Installation](#setup--installation)
-6. [Usage](#usage)
-7. [Kafka Topics](#kafka-topics)
-8. [InfluxDB Schema](#influxdb-schema)
-9. [Grafana Dashboards](#grafana-dashboards)
-10. [Future Enhancements](#future-enhancements)
-11. [Contributing](#contributing)
-12. [How the visualisations look](#how-the-visualisations-look)
+1. [How the visualisations look](#how-the-visualisations-look)
+2. [Project Overview](#project-overview)
+3. [Features](#features)
+4. [Technology Stack](#technology-stack)
+5. [Architecture](#architecture)
+6. [Setup & Installation](#setup--installation)
+7. [Usage](#usage)
+8. [Kafka Topics](#kafka-topics)
+9. [InfluxDB Schema](#influxdb-schema)
+10. [Grafana Dashboards](#grafana-dashboards)
+11. [Future Enhancements](#future-enhancements)
+12. [Contributing](#contributing)
 13. [Acknowledgments](#acknowledgments)
 
-### 1. Project Overview
+### 1. How the Visualisations look
+
+- ![Visualisation](/images/grafana.jpg)
+
+### 2. Project Overview
 
 WebWatch is a real-time website analytics tool designed to track and visualize various user interactions on websites. It provides insights into user behavior by capturing data such as page views, clicks, scroll depth, mouse movements, video plays, and more.
 
-### 2. Features
+### 3. Features
 
 - **Real-time analytics**: Get instant insights into user behavior on your website.
 - **Multi-platform support**: Track user interactions across various devices and browsers.
@@ -35,7 +39,7 @@ WebWatch is a real-time website analytics tool designed to track and visualize v
 - **Downloads**: Monitor file download activity from your site.
 - **Image Views**: Track and analyze which images are being viewed and when.
 
-### 3. Technology Stack
+### 4. Technology Stack
 
 #### Frontend:
 
@@ -64,7 +68,7 @@ WebWatch is a real-time website analytics tool designed to track and visualize v
 - **Docker**: For containerization of the application.
 - **Kubernetes** (Optional): For container orchestration.
 
-### 4. Architecture
+### 5. Architecture
 
 #### Frontend:
 
@@ -86,7 +90,7 @@ WebWatch is a real-time website analytics tool designed to track and visualize v
 - **Grafana**: Creates dashboards and visualizes the data stored in InfluxDB.
 - **WebSockets**: You can build a websockets for a real time visuals on the dashboard
 
-### 5. Setup and installation
+### 6. Setup and installation
 
 (frontend in this project was created only to test the features)
 
@@ -179,7 +183,7 @@ go run cmd/main.go
 
    - Access Grafana at http://localhost:3000 to visualize the captured data.
 
-### 6. Usage
+### 7. Usage
 
 - Embed the tracker
 
@@ -193,7 +197,7 @@ go run cmd/main.go
   - Access Grafana at http://localhost:3000 to visualize the captured data.
   - Explore predefined dashboards or create custom visualizations based on your data.
 
-### 7. Kafka Topics
+### 8. Kafka Topics
 
 - **KAFKA_TOPIC_PAGEVIEW**: Tracks page views.
 - **KAFKA_TOPIC_CLICK**: Tracks click events.
@@ -205,13 +209,13 @@ go run cmd/main.go
 - **KAFKA_TOPIC_AUDIO_COMPLETION**: Tracks audio completions.
 - **KAFKA_TOPIC_IMAGE_VIEW**: Tracks image views.
 
-### 8. InfluxDB Schema
+### 9. InfluxDB Schema
 
 - **Measurement**: `pageviews`, `clicks`, `session_durations`, `scrolls`, etc.
 - **Tags**: `url`, `target`, `data_type` (raw/aggregated).
 - **Fields**: `_value`, `scroll_percentage`, `avg_duration`, etc.
 
-### 9. Grafana Dashboards
+### 10. Grafana Dashboards
 
 - **Page Views**: Time Series, Heatmap.
 - **Clicks**: Bar Gauge, Stat Panel.
@@ -224,7 +228,7 @@ go run cmd/main.go
 
 - **To Use existing Dasboard**: Import from the `grafana-dashboard` folder
 
-### 10. Future Enhancements
+### 11. Future Enhancements
 
 - **User Authentication**: Allow multiple users to sign up and use the service.
 - **Multi-tenant Support**: Allow users to create and manage their own data dashboards.
@@ -232,15 +236,11 @@ go run cmd/main.go
 - **Scalability**: Deploy on AWS/GCP for scalability and reliability.
 - **Build Custom Dashboard**: Using React and ThreeJS, can build a custom dashboard
 
-### 11. Contributing
+### 12. Contributing
 
 - Fork the repository.
 - Create a new branch for your feature.
 - Submit a pull request for review.
-
-### 12. How the Visualisations look
-
-- ![Visualisation](/images/grafana.jpg)
 
 ### 13. Acknowledgments
 
